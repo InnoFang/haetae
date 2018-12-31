@@ -19,8 +19,13 @@ class Login extends React.Component {
         this.props.form.validateFields((err, values) => {
           if (!err) {
             console.log('Received values of form: ', values);
+            // 密码要求 ：同时包含大小写字母和数字，且长度大于 6
             const pattern = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])[A-Za-z0-9]{6,}$/;
-            
+            if (pattern.test(values.password)) {
+                console.log("login succeed");
+            } else {
+                console.log("login failed");
+            }
           }
         });
     }
