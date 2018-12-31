@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Menu, Icon, Slider } from 'antd';
+import { Layout, Menu, Icon, notification } from 'antd';
 import Footer from '../footer/footer'
 import './main.css';
 
@@ -15,10 +15,17 @@ class Main extends React.Component {
         collapsed: !this.state.collapsed,
       });
     }
+
+    componentDidMount() {
+        notification.open({
+            message: '您好，' + window.sessionStorage.getItem("userName"),
+            description: '欢迎使用信访数据情报管理系统',
+            icon: <Icon type="smile" style={{ color: '#108ee9' }} />,
+          });
+    }
   
     render() {
       return (
-
         <Layout>
           <Sider
             trigger={null}
