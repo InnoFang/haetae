@@ -15,7 +15,7 @@ class Footer extends React.Component {
                 <Row >
                     <Col span={4}/>
                     <Col span={16} id="copy">
-                        &copy;&nbsp;2018 InnoFang. All Rights Reserved.
+                        &copy;&nbsp;2019 InnoFang. All Rights Reserved.
                     </Col>
                     <Col span={4}/>
                 </Row>
