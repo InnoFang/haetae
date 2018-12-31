@@ -24,6 +24,7 @@ class Login extends React.Component {
             if (pattern.test(values.password)) {
                 console.log("login succeed");
                 sessionStorage.setItem("userName", values.userName);
+                // 跳转至主界面
                 this.props.history.push('/'); 
             } else {
                 console.log("login failed");
