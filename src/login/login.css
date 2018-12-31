@@ -1,0 +1,32 @@
+@import '~antd/dist/antd.css';
+
+.ant-carousel .slick-slide {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;  
+    align-items: center;     
+    background: #dceaff;
+    overflow: hidden;
+}
+
+.slide img {
+    width:70%;
+    position: relative;
+    margin:0 auto;
+}
+
+#divider {
+    height: 500px;
+    width: 3px
+}
+
+.login-form {
+    max-width: 300px;
+}
+.login-form-forgot {
+    float: right;
+}
+.login-form-button {
+    width: 100%;
+}
