@@ -10,7 +10,7 @@ class Main extends React.Component {
       collapsed: false,
     };
   
-    toggle = () => {
+    onCollapse = () => {
       this.setState({
         collapsed: !this.state.collapsed,
       });
@@ -28,9 +28,9 @@ class Main extends React.Component {
       return (
         <Layout>
           <Sider
-            trigger={null}
             collapsible
-            collapsed={this.state.collapsed}>
+            collapsed={this.state.collapsed}
+            onCollapse={this.onCollapse}>
 
             <div className="logo" />
             <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
@@ -58,16 +58,15 @@ class Main extends React.Component {
           </Sider>
           <Layout>
             <Header style={{ background: '#fff' }}>
-              <Icon
+              {/* <Icon
                 className="trigger"
                 type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
                 onClick={this.toggle}
-              />
+              /> */}
             </Header>
             <Content style={{
               margin: '24px 16px', padding: 24, background: '#fff', minHeight: 800,
-            }}
-            >
+            }}>
               Content
             </Content>
             <Footer />
