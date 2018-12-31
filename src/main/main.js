@@ -28,7 +28,7 @@ class Main extends React.Component {
             <div className="logo" />
             <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
               <Menu.Item key="1">
-                <Icon type="desktop" />
+                <Icon type="home" />
                 <span>网站首页</span>
               </Menu.Item>
               <Menu.Item key="2">
