@@ -23,6 +23,8 @@ class Login extends React.Component {
             const pattern = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])[A-Za-z0-9]{6,}$/;
             if (pattern.test(values.password)) {
                 console.log("login succeed");
+                sessionStorage.setItem("userName", values.userName);
+                this.props.history.push('/'); 
             } else {
                 console.log("login failed");
             }
