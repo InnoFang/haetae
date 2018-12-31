@@ -29,10 +29,9 @@ class Login extends React.Component {
         const { getFieldDecorator } = this.props.form;
         return (
         <div>
-         
             <Row type="flex" align="middle">
                 <Col span={16}>
-                    <Carousel autoplay>
+                    <Carousel autoplay vertical>
                         <div className="slide"> <img src={require('./img/img1.svg')}  alt="img1"/> </div>
                         <div className="slide"> <img src={require('./img/img2.svg')}  alt="img2"/> </div>
                         <div className="slide"> <img src={require('./img/img3.svg')}  alt="img3"/> </div>

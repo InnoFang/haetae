@@ -8,10 +8,11 @@
     align-items: center;     
     background: #dceaff;
     overflow: hidden;
+    padding: 200px;
 }
 
 .slide img {
-    width:70%;
+    width:60%;
     position: relative;
     margin:0 auto;
 }
