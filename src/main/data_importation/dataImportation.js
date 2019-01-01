@@ -74,7 +74,7 @@ class DataImortation extends React.Component {
                 let data = [];
                 for (let i = 0; i < tmpData.length; i++) {
                     data.push({
-                        key: `${i}`,
+                        key: `${i + 1}`,
                         type: tmpData[i]['问题类别'],
                         address: tmpData[i]['问题属地'],
                         description: tmpData[i]['问题描述'],
@@ -157,10 +157,16 @@ class DataImortation extends React.Component {
         const { data } = this.state;
 
         const columns = [{
+            title: '问题序号',
+            dataIndex: 'key',
+            key: 'key',
+            width: '10%',
+            ...this.getColumnSearchProps('key'),
+          }, {
             title: '问题类别',
             dataIndex: 'type',
             key: 'type',
-            width: '30%',
+            width: '20%',
             ...this.getColumnSearchProps('type'),
           }, {
             title: '问题属地',
@@ -192,7 +198,7 @@ class DataImortation extends React.Component {
                 <br />
                 <Row>
                     <Col>
-                       <Table columns={columns} dataSource={data} />;
+                       <Table columns={columns} dataSource={data} scroll={{ y: 600 }} />;
                     </Col>
                 </Row>
             </div>
