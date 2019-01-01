@@ -3,4 +3,10 @@
     border-radius: 4px;
     background: #fff;
     box-shadow: 0 2px 8px rgba(0, 0, 0, .15);
-  }
+}
+
+.tips {
+    height: 30px;
+    line-height: 30px;
+    color: #ABB2B9;
+}
