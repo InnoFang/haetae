@@ -6,33 +6,34 @@ import {
     Icon,
     Row,
     Col,
-    message
+    message,
+    Upload
 } from 'antd'
 import Highlighter from 'react-highlight-words';
 import XLSX from 'xlsx';
 import './dataImportation.css'
 
-const data = [{
-    key: '1',
-    type: 'John Brown',
-    address: 'New York No. 1 Lake Park',
-    description: 'Hello World',
-  }, {
-    key: '2',
-    type: 'Joe Black',
-    address: 'London No. 1 Lake Park',
-    description: 'Hello World   ',
-  }, {
-    key: '3',
-    type: 'Jim Green',
-    address: 'Sidney No. 1 Lake Park',
-    description: 'Hello World',
-  }, {
-    key: '4',
-    type: 'Jim Red',
-    address: 'London No. 2 Lake Park',
-    description: 'Hello World',
-  }];
+// const data = [{
+//     key: '1',
+//     type: 'John Brown',
+//     address: 'New York No. 1 Lake Park',
+//     description: 'Hello World',
+//   }, {
+//     key: '2',
+//     type: 'Joe Black',
+//     address: 'London No. 1 Lake Park',
+//     description: 'Hello World   ',
+//   }, {
+//     key: '3',
+//     type: 'Jim Green',
+//     address: 'Sidney No. 1 Lake Park',
+//     description: 'Hello World',
+//   }, {
+//     key: '4',
+//     type: 'Jim Red',
+//     address: 'London No. 2 Lake Park',
+//     description: 'Hello World',
+//   }];
   
 
 class DataImortation extends React.Component {
@@ -41,40 +42,56 @@ class DataImortation extends React.Component {
         super();
         this.state = {
             searchText : '',
+            data : [],
         }
+
+        this.onImportExcel = this.onImportExcel.bind(this);
     }
 
     onImportExcel(file) {
         // 获取上传的文件对象
-        const { files } = file.target;
+        // const { files } = file.target;
         // 通过FileReader对象读取文件
         const fileReader = new FileReader();
+        const that = this;
         fileReader.onload = event => {
             try {
                 const { result } = event.target;
                 // 以二进制流方式读取得到整份excel表格对象
                 const workbook = XLSX.read(result, { type: 'binary' });
                 // 存储获取到的数据
-                let data = [];
+                let tmpData = [];
                 // 遍历每张工作表进行读取（这里默认只读取第一张表）
                 for (const sheet in workbook.Sheets) {
                 // esline-disable-next-line
                     if (workbook.Sheets.hasOwnProperty(sheet)) {
                         // 利用 sheet_to_json 方法将 excel 转成 json 数据
-                        data = data.concat(XLSX.utils.sheet_to_json(workbook.Sheets[sheet]));
+                        tmpData = tmpData.concat(XLSX.utils.sheet_to_json(workbook.Sheets[sheet]));
                         // break; // 如果只取第一张表，就取消注释这行
                     }
                 }
                 // 最终获取到并且格式化后的 json 数据
+                let data = [];
+                for (let i = 0; i < tmpData.length; i++) {
+                    data.push({
+                        key: `${i}`,
+                        type: tmpData[i]['问题类别'],
+                        address: tmpData[i]['问题属地'],
+                        description: tmpData[i]['问题描述'],
+                    });
+                }
                 message.success('上传成功！')
+                that.setState({ data : data });    
                 console.log(data);
             } catch (e) {
                 // 这里可以抛出文件类型错误不正确的相关提示
+                console.log(e);
                 message.error('文件类型不正确！');
             }
         };
+        // console.log(file);
         // 以二进制方式打开文件
-        fileReader.readAsBinaryString(files[0]);
+        fileReader.readAsBinaryString(file.file);
     }
 
     getColumnSearchProps(dataIndex) {
@@ -137,6 +154,8 @@ class DataImortation extends React.Component {
 
     render() {
 
+        const { data } = this.state;
+
         const columns = [{
             title: '问题类别',
             dataIndex: 'type',
@@ -160,9 +179,11 @@ class DataImortation extends React.Component {
             <div>
                 <Row>
                     <Col span={2}>
-                        <Button type="primary" icon="cloud-upload" accept='.xlsx, .xls' onChange={this.onImportExcel}>
-                            上传文件
-                        </Button>
+                        <Upload name="file" accept='.xlsx, .xls' showUploadList={false} customRequest={this.onImportExcel}>
+                            <Button type="primary" icon="cloud-upload">
+                                上传文件
+                            </Button>
+                        </Upload>
                     </Col>
                     <Col>
                         <p className="tips">支持 .xlsx、.xls 格式的文件</p>
