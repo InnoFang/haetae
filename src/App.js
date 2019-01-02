@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Login from './login/login.js';
 import Main from './main/main';
-import PrivateRoute from './utils/privateRoute/privateRoute';
+import PrivateRoute from './component/privateRoute/privateRoute';
 
 class App extends Component {
   render() {
