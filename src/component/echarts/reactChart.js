@@ -3,11 +3,11 @@ import echarts from 'echarts/lib/echarts';
 import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/grid';
 
-import 'echarts/lib/chart/bar';
-import 'echarts/lib/chart/pie'
-import 'echarts/lib/chart/line'
-import 'echarts/lib/chart/scatter'
-
+import 'echarts/lib/chart/bar';    // 引入柱状图
+import 'echarts/lib/chart/pie'     // 引入饼状图 
+import 'echarts/lib/chart/line'    // 引入线状图 
+import 'echarts/lib/chart/scatter' // 引入散点图 
+import 'echarts/lib/chart/radar'   // 引入雷达图
 export class ReactChart extends React.Component {
     constructor(props) {
         super(props);
@@ -47,3 +47,6 @@ export class LineChart extends ReactChart {}
 
 // Scatter Chart
 export class ScatterChart extends ReactChart {}
+
+// Radar Chart
+export class RadarChart extends ReactChart {}
