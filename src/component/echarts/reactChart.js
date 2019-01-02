@@ -6,6 +6,7 @@ import 'echarts/lib/component/grid';
 import 'echarts/lib/chart/bar';
 import 'echarts/lib/chart/pie'
 import 'echarts/lib/chart/line'
+import 'echarts/lib/chart/scatter'
 
 export class ReactChart extends React.Component {
     constructor(props) {
@@ -43,3 +44,6 @@ export class PieChart extends ReactChart {}
 
 // Line Chart
 export class LineChart extends ReactChart {}
+
+// Scatter Chart
+export class ScatterChart extends ReactChart {}
