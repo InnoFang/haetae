@@ -2,9 +2,12 @@ import React from 'react';
 import echarts from 'echarts/lib/echarts';
 import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/grid';
-import 'echarts/lib/chart/bar';
 
-export default class BarChart extends React.Component {
+import 'echarts/lib/chart/bar';
+import 'echarts/lib/chart/pie'
+import 'echarts/lib/chart/line'
+
+export class ReactChart extends React.Component {
     constructor(props) {
         super(props);
         this.initPie = this.initPie.bind(this);
@@ -31,3 +34,12 @@ export default class BarChart extends React.Component {
         return <div ref={ID => this.ID = ID} style={{width, height}}></div>
     }
 }
+
+// Bar Chart
+export class BarChart extends ReactChart {}
+
+// Pie Chart
+export class PieChart extends ReactChart {}
+
+// Line Chart
+export class LineChart extends ReactChart {}

@@ -1,49 +1,20 @@
 import React from 'react'
-import asyncComponenet from '../../component/asyncComponent';
-const BarChart = asyncComponenet(() => import('../../component/echarts/barChart'));
+// import asyncComponenet from '../../component/asyncComponent';
+// const BarChart = asyncComponenet(() => import('../../component/echarts/reactChart'));
+import { 
+    BarChart, 
+    PieChart,
+    LineChart
+} from '../../component/echarts/reactChart';
 
-const barOption = {
-    color: ['#3398DB'],
-    tooltip : {
-      trigger: 'axis',
-      axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-        type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-      }
-    },
-    grid: {
-      left: '3%',
-      right: '4%',
-      bottom: '3%',
-      containLabel: true
-    },
-    xAxis : [
-      {
-        type : 'category',
-        data : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-        axisTick: {
-          alignWithLabel: true
-        }
-      }
-    ],
-    yAxis : [
-      {
-        type : 'value'
-      }
-    ],
-    series : [
-      {
-        name:'直接访问',
-        type:'bar',
-        barWidth: '60%',
-        data:[10, 52, 200, 334, 390, 330, 220]
-      }
-    ]
-  };
+import { pieOption, barOption, lineOption, scatterOption, mapOption, radarOption, candlestickOption } from './options'
 
 class DataAnalysis extends React.Component {
     render() {
         return (<div>
-            <BarChart option={barOption}/>
+            <BarChart option={barOption} width="1000px"/>
+            <PieChart option={pieOption} width="1000px"/>
+            <LineChart option={lineOption} width="1000px"/>
         </div>)
     }
 }
