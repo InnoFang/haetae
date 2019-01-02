@@ -2,12 +2,23 @@ import React from 'react';
 import echarts from 'echarts/lib/echarts';
 import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/grid';
+import 'echarts/lib/component/legend'
 
 import 'echarts/lib/chart/bar';    // 引入柱状图
 import 'echarts/lib/chart/pie'     // 引入饼状图 
 import 'echarts/lib/chart/line'    // 引入线状图 
 import 'echarts/lib/chart/scatter' // 引入散点图 
 import 'echarts/lib/chart/radar'   // 引入雷达图
+
+import 'echarts/lib/component/geo'
+import 'echarts/lib/chart/map' //引入地图
+import 'echarts/lib/chart/lines'
+import 'echarts/lib/chart/effectScatter'
+import 'echarts/map/js/china' // 引入中国地图
+
+import 'echarts/lib/chart/candlestick' //引入雷达图
+import 'echarts/lib/component/markLine'
+
 export class ReactChart extends React.Component {
     constructor(props) {
         super(props);
@@ -50,3 +61,9 @@ export class ScatterChart extends ReactChart {}
 
 // Radar Chart
 export class RadarChart extends ReactChart {}
+
+// Map Chart
+export class MapChart extends ReactChart {}
+
+// Candlestick Chart
+export class CandlestickChart extends ReactChart {}

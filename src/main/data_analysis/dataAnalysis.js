@@ -6,7 +6,9 @@ import {
     PieChart,
     LineChart,
     ScatterChart,
-    RadarChart
+    RadarChart,
+    MapChart,
+    CandlestickChart
 } from '../../component/echarts/reactChart';
 
 import { pieOption, barOption, lineOption, scatterOption, mapOption, radarOption, candlestickOption } from './options'
@@ -14,11 +16,13 @@ import { pieOption, barOption, lineOption, scatterOption, mapOption, radarOption
 class DataAnalysis extends React.Component {
     render() {
         return (<div>
-            <BarChart option={barOption} width="1000px"/>
-            <PieChart option={pieOption} width="1000px"/>
-            <LineChart option={lineOption} width="1000px"/>
-            <ScatterChart option={scatterOption} width="1000px"/>
-            <RadarChart option={radarOption} width="1000px"/>
+            <BarChart option={barOption} width="60%" height="500px"/>
+            <PieChart option={pieOption} width="60%" height="500px"/>
+            <LineChart option={lineOption} width="60%" height="500px"/>
+            <ScatterChart option={scatterOption} width="60%" height="500px"/>
+            <RadarChart option={radarOption} width="60%" height="500px"/>
+            <MapChart option={mapOption} width="60%" height="500px"/>
+            <CandlestickChart option={candlestickOption} width="60%" height="500px"/>
         </div>)
     }
 }
