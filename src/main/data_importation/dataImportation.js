@@ -45,10 +45,10 @@ class DataImortation extends React.Component {
             data : [],
         }
 
-        this.onImportExcel = this.onImportExcel.bind(this);
+        this.onImportExcel = this.onHandleImportExcel.bind(this);
     }
 
-    onImportExcel(file) {
+    onHandleImportExcel(file) {
         // 获取上传的文件对象
         // const { files } = file.target;
         // 通过FileReader对象读取文件
@@ -185,7 +185,7 @@ class DataImortation extends React.Component {
             <div>
                 <Row>
                     <Col span={2}>
-                        <Upload name="file" accept='.xlsx, .xls' showUploadList={false} customRequest={this.onImportExcel}>
+                        <Upload name="file" accept='.xlsx, .xls' showUploadList={false} customRequest={this.onHandleImportExcel}>
                             <Button type="primary" icon="cloud-upload">
                                 上传文件
                             </Button>
