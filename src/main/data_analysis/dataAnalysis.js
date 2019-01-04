@@ -2,24 +2,32 @@ import React from 'react'
 import { Button } from 'antd';
 import './dataAnalysis.css';
 
-// import asyncComponenet from '../../component/asyncComponent';
-// const BarChart = asyncComponenet(() => import('../../component/echarts/reactChart'));
-import { 
-    BarChart, 
-    PieChart,
-    LineChart,
-    ScatterChart,
-    RadarChart,
-    MapChart,
-    CandlestickChart
-} from '../../component/echarts/reactChart';
+import { pieOption, barOption, lineOption, scatterOption, mapOption, radarOption, candlestickOption } from './options';
 
-import { pieOption, barOption, lineOption, scatterOption, mapOption, radarOption, candlestickOption } from './options'
+import asyncComponenet from '../../component/asyncComponent';
+const BarChart = asyncComponenet(() => import('../../component/echarts/barChart'));
+const PieChart = asyncComponenet(() => import('../../component/echarts/pieChart'));
+const LineChart = asyncComponenet(() => import('../../component/echarts/lineChart'));
+const ScatterChart = asyncComponenet(() => import('../../component/echarts/scatterChart'));
+const RadarChart = asyncComponenet(() => import('../../component/echarts/radarChart'));
+const MapChart = asyncComponenet(() => import('../../component/echarts/mapChart'));
+const CandlestickChart = asyncComponenet(() => import('../../component/echarts/candlestickChart'));
+
 
 class DataAnalysis extends React.Component {
  
+    constructor(){
+        super();
+         
+    }
+
+    onHandleExportFile() {
+       
+    }
+
     render() {
        return <div>
+           <Button type='primary' onClick={this.onHandleExportFile}>导出文件</Button>
             <BarChart option={barOption} width="60%" height="500px"/>
             <PieChart option={pieOption} width="60%" height="500px"/>
             <LineChart option={lineOption} width="60%" height="500px"/>
