@@ -11,26 +11,49 @@ import {
 import './login.css';
 
 import Footer from '../footer/footer'
+import Api from '../Api'
 
 class Login extends React.Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
-          if (!err) {
-            console.log('Received values of form: ', values);
-            // 密码要求 ：同时包含大小写字母和数字，且长度大于 6
-            const pattern = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])[A-Za-z0-9]{6,}$/;
-            if (pattern.test(values.password)) {
-                console.log("login succeed");
-                sessionStorage.setItem("userName", values.userName);
-                // 跳转至主界面
-                this.props.history.push('/'); 
-            } else {
-                console.log("login failed");
+            if (!err) {
+                // console.log('Received values of form: ', values);
+                // 尝试登录
+                this.login(values);
             }
-          }
         });
+    }
+
+    login(values) {
+        const { userName, password } = values;
+        const user = {
+            username: userName,
+            password: password
+        };
+
+        fetch(Api.userLogIn(userName, password), {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            mode: 'cors'
+            }).then(res => res.json())
+            .catch(error => console.error('Error:', error))
+            .then(response => {
+                console.log(response);
+                const { code, msg } = response;
+                if (code === 0) {
+                    console.log("login succeed");
+                    sessionStorage.setItem("userName", values.userName);
+                    // 跳转至主界面
+                    this.props.history.push('/'); 
+                } else {
+                    console.log(msg);
+                }
+            });
     }
 
     render() {
