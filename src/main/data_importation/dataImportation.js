@@ -25,28 +25,7 @@ class DataImortation extends React.Component {
 
         this.onHandleImportExcel = this.onHandleImportExcel.bind(this);
     }
-
-    componentDidMount(){
-        // fetch(Api.getDataList(), {
-        //     method: 'GET',
-        //     headers: {
-        //         'Accept': 'application/json',
-        //         'Content-Type': 'application/json'
-        //     },
-        //     mode: 'cors'
-        //     }).then(res => res.json())
-        //     .catch(error => console.error('Error:', error))
-        //     .then(response => {
-        //         const { code, msg, data } = response;
-        //         console.log(data);
-        //         if (code === 0) {
-        //             this.setState({ data });
-        //             console.log("加载数据完成")
-        //         } else {
-        //             console.log(msg);
-        //         }
-        //     });
-    }
+ 
 
     onHandleImportExcel(e) {
         // 获取上传的文件对象
