@@ -5,6 +5,7 @@ const Api = {
     'getDataList': () => `${root}/msg/list`,
     'uploadFile': () => `${root}/msg/uploadFile`,
     'getPlaceCount': () => `${root}/msg/getPlaceCount`,
+    'getCategoryCount': () => `${root}/msg/getCategoryCount`,
 };
 
 export default Api;

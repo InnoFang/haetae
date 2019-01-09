@@ -35,9 +35,7 @@ class AnalysisByLocation extends React.Component {
                     xAxisData.push(key);
                     yAxisData.push(data[key]);
                 }
-                this.setState({ xAxisData, yAxisData});
-                // barOption['xAxis'][0]['data'] = xAxisData;
-                // barOption['series'][0]['data'] = yAxisData;
+                this.setState({ xAxisData, yAxisData });
                 console.log("显示数据")
             } else {
                 console.log(msg);
