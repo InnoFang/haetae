@@ -7,7 +7,7 @@ import {
     Row,
     Col,
     message,
-    Upload
+    Upload,
 } from 'antd'
 import Highlighter from 'react-highlight-words';
 import XLSX from 'xlsx';
@@ -27,28 +27,28 @@ class DataImortation extends React.Component {
     }
 
     componentDidMount(){
-        fetch(Api.getDataList(), {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            mode: 'cors'
-            }).then(res => res.json())
-            .catch(error => console.error('Error:', error))
-            .then(response => {
-                console.log(response);
-                const { code, msg, data } = response;
-                if (code === 0) {
-                    this.setState({ data });
-                    console.log("加载数据完成")
-                } else {
-                    console.log(msg);
-                }
-            });
+        // fetch(Api.getDataList(), {
+        //     method: 'GET',
+        //     headers: {
+        //         'Accept': 'application/json',
+        //         'Content-Type': 'application/json'
+        //     },
+        //     mode: 'cors'
+        //     }).then(res => res.json())
+        //     .catch(error => console.error('Error:', error))
+        //     .then(response => {
+        //         const { code, msg, data } = response;
+        //         console.log(data);
+        //         if (code === 0) {
+        //             this.setState({ data });
+        //             console.log("加载数据完成")
+        //         } else {
+        //             console.log(msg);
+        //         }
+        //     });
     }
 
-    onHandleImportExcel(file) {
+    onHandleImportExcel(e) {
         // 获取上传的文件对象
         // const { files } = file.target;
         // 通过FileReader对象读取文件
@@ -85,9 +85,26 @@ class DataImortation extends React.Component {
                 if (data[0]['type'] !== undefined  
                  && data[0]['address'] !== undefined 
                  && data[0]['description'] !== undefined) {
-                    message.success('上传成功！')
-                    this.setState({ data });    
-                    console.log(data);
+
+                    const  formData = new FormData();
+                    formData.append("fileName", e.file);
+                    // 开始上传 excel 文件
+                    fetch(Api.uploadFile(), {
+                        method: 'POST',
+                        mode: 'cors',
+                        body: formData,
+                    }).then(res => res.json())
+                    .catch(error => console.error('Error:', error))
+                    .then(response => {
+                        const { code } = response;
+                        if (code === 0) {
+                            message.success('上传成功！')
+                            this.setState({ data });
+                            // console.log(data);
+                        } else {
+                            message.error("上传失败，请重试");
+                        }
+                    });
                 } else {
                     message.error('文件内容需包含，\'问题类别\'、\'问题属地\' 、\'问题描述\'字段且不能为空！');
                 }
@@ -99,7 +116,7 @@ class DataImortation extends React.Component {
         };
         // console.log(file);
         // 以二进制方式打开文件
-        fileReader.readAsBinaryString(file.file);
+        fileReader.readAsBinaryString(e.file);
     }
 
     getColumnSearchProps(dataIndex) {
@@ -144,7 +161,7 @@ class DataImortation extends React.Component {
                 highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
                 searchWords={[this.state.searchText]}
                 autoEscape
-                textToHighlight={text.toString()}
+                textToHighlight={text}
               />
             ),
         }

@@ -5,6 +5,7 @@ import Footer from '../footer/footer'
 import './main.css';
 
 import Home from './home/home';
+import DataManager from './data_manager/dataManager';
 import DataImportation from './data_importation/dataImportation';
 import DataAnalysis from './data_analysis/dataAnalysis';
 import Information from './information/information';
@@ -49,21 +50,26 @@ class Main extends React.Component {
                     <Link to='/'/>
                   </Menu.Item>
                   <Menu.Item key="2">
+                    <Icon type="book" />
+                    <span>数据管理</span>
+                    <Link to='/data-manager'/>
+                  </Menu.Item>
+                  <Menu.Item key="3">
                     <Icon type="cloud-upload" />
                     <span>数据导入</span>
                     <Link to="/data-importation"/>
                   </Menu.Item>
-                  <Menu.Item key="3">
+                  <Menu.Item key="4">
                     <Icon type="line-chart" />
                     <span>数据分析</span> 
                     <Link to="/data-analysis"/>
                   </Menu.Item>
-                  <Menu.Item key="4">
+                  <Menu.Item key="5">
                     <Icon type="user" />
                     <span>个人信息</span>
                     <Link to="/information"/>
                   </Menu.Item>
-                  <Menu.Item key="5">
+                  <Menu.Item key="6">
                     <Icon type="setting" />
                     <span>基本设置</span>
                     <Link to="/setting"/>
@@ -82,10 +88,11 @@ class Main extends React.Component {
               
               <div>
                 <Route key={1} path="/"  component={Home} exact /> 
-                <Route key={2} path="/data-importation"  component={DataImportation} /> 
-                <Route key={3} path="/data-analysis"  component={DataAnalysis} /> 
-                <Route key={4} path="/information"  component={Information} /> 
-                <Route key={5} path="/setting"  component={Setting} /> 
+                <Route key={2} path="/data-manager"  component={DataManager} /> 
+                <Route key={3} path="/data-importation"  component={DataImportation} /> 
+                <Route key={4} path="/data-analysis"  component={DataAnalysis} /> 
+                <Route key={5} path="/information"  component={Information} /> 
+                <Route key={6} path="/setting"  component={Setting} /> 
               </div>
              </Content>
               <Footer />
