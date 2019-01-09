@@ -38,14 +38,14 @@ import './dataImportation.css'
 
 class DataImortation extends React.Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             searchText : '',
             data : [],
         }
 
-        this.onImportExcel = this.onHandleImportExcel.bind(this);
+        this.onHandleImportExcel = this.onHandleImportExcel.bind(this);
     }
 
     onHandleImportExcel(file) {
@@ -53,7 +53,7 @@ class DataImortation extends React.Component {
         // const { files } = file.target;
         // 通过FileReader对象读取文件
         const fileReader = new FileReader();
-        const that = this;
+
         fileReader.onload = event => {
             try {
                 const { result } = event.target;
@@ -71,18 +71,26 @@ class DataImortation extends React.Component {
                     }
                 }
                 // 最终获取到并且格式化后的 json 数据
-                let data = [];
+                let { data } = this.state;
+                const baseKey = data.length;
                 for (let i = 0; i < tmpData.length; i++) {
                     data.push({
-                        key: `${i + 1}`,
+                        key: `${baseKey + i + 1}`,
                         type: tmpData[i]['问题类别'],
                         address: tmpData[i]['问题属地'],
                         description: tmpData[i]['问题描述'],
                     });
                 }
-                message.success('上传成功！')
-                that.setState({ data : data });    
-                console.log(data);
+ 
+                if (data[0]['type'] !== undefined  
+                 && data[0]['address'] !== undefined 
+                 && data[0]['description'] !== undefined) {
+                    message.success('上传成功！')
+                    this.setState({ data });    
+                    console.log(data);
+                } else {
+                    message.error('文件内容需包含，\'问题类别\'、\'问题属地\' 、\'问题描述\'字段且不能为空！');
+                }
             } catch (e) {
                 // 这里可以抛出文件类型错误不正确的相关提示
                 console.log(e);
@@ -191,6 +199,8 @@ class DataImortation extends React.Component {
                             </Button>
                         </Upload>
                     </Col>
+                </Row>
+                <Row>
                     <Col>
                         <p className="tips">支持 .xlsx、.xls 格式的文件</p>
                     </Col>
@@ -198,7 +208,7 @@ class DataImortation extends React.Component {
                 <br />
                 <Row>
                     <Col>
-                       <Table columns={columns} dataSource={data} scroll={{ y: 600 }} />;
+                       <Table columns={columns} dataSource={data} scroll={{ y: 600 }} />
                     </Col>
                 </Row>
             </div>

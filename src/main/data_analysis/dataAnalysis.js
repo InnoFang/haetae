@@ -15,11 +15,7 @@ const CandlestickChart = asyncComponenet(() => import('../../component/echarts/c
 
 
 class DataAnalysis extends React.Component {
- 
-    constructor(){
-        super();
-         
-    }
+  
 
     onHandleExportFile() {
        

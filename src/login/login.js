@@ -27,11 +27,7 @@ class Login extends React.Component {
     }
 
     login(values) {
-        const { userName, password } = values;
-        const user = {
-            username: userName,
-            password: password
-        };
+        const { userName, password } = values; 
 
         fetch(Api.userLogIn(userName, password), {
             method: 'POST',
