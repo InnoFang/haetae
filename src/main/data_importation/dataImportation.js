@@ -11,30 +11,8 @@ import {
 } from 'antd'
 import Highlighter from 'react-highlight-words';
 import XLSX from 'xlsx';
-import './dataImportation.css'
-
-// const data = [{
-//     key: '1',
-//     type: 'John Brown',
-//     address: 'New York No. 1 Lake Park',
-//     description: 'Hello World',
-//   }, {
-//     key: '2',
-//     type: 'Joe Black',
-//     address: 'London No. 1 Lake Park',
-//     description: 'Hello World   ',
-//   }, {
-//     key: '3',
-//     type: 'Jim Green',
-//     address: 'Sidney No. 1 Lake Park',
-//     description: 'Hello World',
-//   }, {
-//     key: '4',
-//     type: 'Jim Red',
-//     address: 'London No. 2 Lake Park',
-//     description: 'Hello World',
-//   }];
-  
+import './dataImportation.css';
+import Api from '../../Api';
 
 class DataImortation extends React.Component {
 
@@ -46,6 +24,28 @@ class DataImortation extends React.Component {
         }
 
         this.onHandleImportExcel = this.onHandleImportExcel.bind(this);
+    }
+
+    componentDidMount(){
+        fetch(Api.getDataList(), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            mode: 'cors'
+            }).then(res => res.json())
+            .catch(error => console.error('Error:', error))
+            .then(response => {
+                console.log(response);
+                const { code, msg, data } = response;
+                if (code === 0) {
+                    this.setState({ data });
+                    console.log("加载数据完成")
+                } else {
+                    console.log(msg);
+                }
+            });
     }
 
     onHandleImportExcel(file) {
