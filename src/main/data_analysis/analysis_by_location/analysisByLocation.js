@@ -1,5 +1,4 @@
 import React from 'react'
-import { Button } from 'antd';
 import echarts from 'echarts';
 
 import Api from '../../../Api'
@@ -112,7 +111,6 @@ class AnalysisByLocation extends React.Component {
             toolbox: {
             　　show: true,
             　　feature: {
-                    dataView: {},
             　　　　saveAsImage: {
                 　　　　pixelRatio: 2
             　　　　}

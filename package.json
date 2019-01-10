@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "antd": "^3.11.6",
+    "file-saver": "^2.0.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-highlight-words": "^0.15.0",

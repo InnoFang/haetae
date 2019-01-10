@@ -1,10 +1,9 @@
 import React from 'react'
-import { Button } from 'antd';
 
 import Api from '../../../Api'
 
 import asyncComponenet from '../../../component/asyncComponent';
-import WordCount from '../../../component/echarts/wordCloud';
+const WordCount = asyncComponenet(() => import('../../../component/echarts/wordCloud'));
 
 class AnalysisByKeyWord extends React.Component {
   
@@ -58,7 +57,6 @@ class AnalysisByKeyWord extends React.Component {
             toolbox: {
             　　show: true,
             　　feature: {
-                    dataView: {},
             　　　　saveAsImage: {
                 　　　　pixelRatio: 2
             　　　　}

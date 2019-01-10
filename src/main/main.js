@@ -1,10 +1,9 @@
 import React from 'react';
-import { Layout, Menu, Icon, notification, Breadcrumb } from 'antd';
+import { Layout, Menu, Icon, notification } from 'antd';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Footer from '../footer/footer'
 import './main.css';
 
-import Home from './home/home';
 import DataManager from './data_manager/dataManager';
 import DataImportation from './data_importation/dataImportation';
 
@@ -47,7 +46,11 @@ class Main extends React.Component {
 
               <div className="logo" />
                 <div>
-                  <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
+                  <Menu 
+                    theme="dark" 
+                    mode="inline"
+                     defaultSelectedKeys={['1']}
+                     defaultOpenKeys={['sub']}>
                   <Menu.Item key="1">
                     <Icon type="book" />
                     <span>数据管理</span>

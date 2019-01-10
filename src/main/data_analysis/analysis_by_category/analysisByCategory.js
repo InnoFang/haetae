@@ -1,5 +1,4 @@
 import React from 'react'
-import { Button } from 'antd';
 import Api from '../../../Api'
 
 import asyncComponenet from '../../../component/asyncComponent';
@@ -69,12 +68,10 @@ class AnalysisByCategory extends React.Component {
                 show: true,
                 feature: {
                     mark: { show: true },
-                    dataView: { show: true, readOnly: false },
                     magicType: {
                         show: true,
                         type: ['pie', 'funnel']
                     },
-                    restore: { show: true },
                     saveAsImage: { show: true }
                 }
             },
@@ -82,7 +79,7 @@ class AnalysisByCategory extends React.Component {
               {
                 name: '问题类别',
                 type: 'pie',
-                radius: [0, '50%'],
+                radius: [0, '40%'],
                 label: {
                     normal: {
                         position: 'inner',
@@ -97,7 +94,7 @@ class AnalysisByCategory extends React.Component {
               }, {
                 name: '问题类别',
                 type: 'pie',
-                radius: ['60%', '80%'],
+                radius: ['50%', '70%'],
                 labels: {
                     normal: {
                         formatter: '{a|{a}}{abg|}\n{hr|}\n  {b|{b}}: }{c}  {per|{d}%}  ',
@@ -136,7 +133,7 @@ class AnalysisByCategory extends React.Component {
           };
           
        return <div>
-            <PieChart option={pieOption} height="1000px"/>
+            <PieChart option={pieOption} height="1100px"/>
         </div>
     }
 }
