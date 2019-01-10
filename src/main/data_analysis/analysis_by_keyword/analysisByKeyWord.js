@@ -53,7 +53,7 @@ class AnalysisByKeyWord extends React.Component {
         const wordCloudOption = {
             title: {
                 text: '信访数据关键词词云',
-                subtext: '根据信访数据关键词分词统计'
+                subtext: '根据信访数据关键词分词词频统计'
             },
             toolbox: {
             　　show: true,
@@ -102,7 +102,7 @@ class AnalysisByKeyWord extends React.Component {
         };
 
        return <div>
-            <WordCount option={wordCloudOption} height="500px"/>
+            <WordCount option={wordCloudOption} height="800px"/>
         </div>
     }
 }

@@ -12,8 +12,7 @@ import AnalysisByLocation from './data_analysis/analysis_by_location/analysisByL
 import AnalysisByKeyWord from './data_analysis/analysis_by_keyword/analysisByKeyWord';
 import AnalysisByCategory from './data_analysis/analysis_by_category/analysisByCategory';
 
-import Information from './information/information';
-import Setting from './setting/setting';
+import ReportGeneration from './reportGeneration/reportGeneration';
 import SubMenu from 'antd/lib/menu/SubMenu';
 
 const { Header, Sider, Content } = Layout;
@@ -50,46 +49,36 @@ class Main extends React.Component {
                 <div>
                   <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
                   <Menu.Item key="1">
-                    <Icon type="home" />
-                    <span>网站首页</span>
-                    <Link to='/'/>
-                  </Menu.Item>
-                  <Menu.Item key="2">
                     <Icon type="book" />
                     <span>数据管理</span>
                     <Link to='/data-manager'/>
                   </Menu.Item>
-                  <Menu.Item key="3">
+                  <Menu.Item key="2">
                     <Icon type="cloud-upload" />
                     <span>数据导入</span>
                     <Link to="/data-importation"/>
                   </Menu.Item>
                   <SubMenu key="sub" title={<span><Icon type="line-chart" /><span>数据分析</span></span>}>
-                    <Menu.Item key="4">
+                    <Menu.Item key="3">
                       <Icon type="bar-chart" />
                       <span>按地名分析</span> 
                       <Link to="/analysis-by-location"/>
                     </Menu.Item>
-                    <Menu.Item key="5">
+                    <Menu.Item key="4">
                       <Icon type="pie-chart" />
                       <span>按类别分析</span> 
                       <Link to="/analysis-by-category"/>
                     </Menu.Item>
-                    <Menu.Item key="6">
+                    <Menu.Item key="5">
                       <Icon type="dot-chart" />
                       <span>关键字分析</span> 
                       <Link to="/analysis-by-keyword"/>
                     </Menu.Item>
                   </SubMenu>
-                  <Menu.Item key="7">
-                    <Icon type="user" />
-                    <span>个人信息</span>
-                    <Link to="/information"/>
-                  </Menu.Item>
-                  <Menu.Item key="8">
-                    <Icon type="setting" />
-                    <span>基本设置</span>
-                    <Link to="/setting"/>
+                  <Menu.Item key="6">
+                    <Icon type="file-word" />
+                    <span>报告生成</span>
+                    <Link to="/report-generation"/>
                   </Menu.Item>
                 </Menu>
               </div>
@@ -104,14 +93,13 @@ class Main extends React.Component {
               }}>
               
               <div>
-                <Route key={1} path="/"  component={Home} exact /> 
+                <Route key={1} path="/"  component={DataManager} exact /> 
                 <Route key={2} path="/data-manager"  component={DataManager} /> 
                 <Route key={3} path="/data-importation"  component={DataImportation} /> 
                 <Route key={4} path="/analysis-by-location"  component={AnalysisByLocation} /> 
                 <Route key={5} path="/analysis-by-category"  component={AnalysisByCategory} /> 
                 <Route key={6} path="/analysis-by-keyword"  component={AnalysisByKeyWord} /> 
-                <Route key={7} path="/information"  component={Information} /> 
-                <Route key={8} path="/setting"  component={Setting} /> 
+                <Route key={7} path="/report-generation"  component={ReportGeneration} /> 
               </div>
              </Content>
               <Footer />
