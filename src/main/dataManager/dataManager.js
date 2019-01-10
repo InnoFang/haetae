@@ -4,6 +4,7 @@ import {
     Input,
     Button,
     Icon,
+    Spin,
     Row,
     Col,
 } from 'antd'
@@ -18,6 +19,7 @@ class DataManager extends React.Component {
         this.state = {
             searchText : '',
             data : [],
+            loading: true,
         }
     }
 
@@ -39,7 +41,7 @@ class DataManager extends React.Component {
                         delete item.id;
                     }
                     console.log(data);
-                    this.setState({ data });
+                    this.setState({ data, loading: false });
                     console.log("加载数据完成")
                 } else {
                     console.log(msg);
@@ -145,7 +147,9 @@ class DataManager extends React.Component {
             <div> 
                 <Row>
                     <Col>
-                       <Table columns={columns} dataSource={data} scroll={{ y: 600 }}/>
+                        <Spin spinning={this.state.loading}>
+                            <Table columns={columns} dataSource={data} scroll={{ y: 600 }}/>
+                        </Spin>
                     </Col>
                 </Row>
             </div>
