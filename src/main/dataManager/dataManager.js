@@ -40,12 +40,12 @@ class DataManager extends React.Component {
                         item['key'] = `${item['id']}`;
                         delete item.id;
                     }
-                    console.log(data);
-                    this.setState({ data, loading: false });
+                    // console.log(data);
                     console.log("加载数据完成")
                 } else {
                     console.log(msg);
                 }
+                this.setState({ data, loading: false });
             });
     }
 

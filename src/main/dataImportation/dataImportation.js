@@ -8,6 +8,7 @@ import {
     Col,
     message,
     Upload,
+    Spin,
 } from 'antd'
 import Highlighter from 'react-highlight-words';
 import XLSX from 'xlsx';
@@ -21,6 +22,7 @@ class DataImortation extends React.Component {
         this.state = {
             searchText : '',
             data : [],
+            loading: false,
         }
 
         this.onHandleImportExcel = this.onHandleImportExcel.bind(this);
@@ -31,6 +33,7 @@ class DataImortation extends React.Component {
         // 获取上传的文件对象
         // const { files } = file.target;
         // 通过FileReader对象读取文件
+        
         const fileReader = new FileReader();
 
         fileReader.onload = event => {
@@ -83,6 +86,7 @@ class DataImortation extends React.Component {
                         } else {
                             message.error("上传失败，请重试");
                         }
+                        this.setState({ loading: true });
                     });
                 } else {
                     message.error('文件内容需包含，\'问题类别\'、\'问题属地\' 、\'问题描述\'字段且不能为空！');
