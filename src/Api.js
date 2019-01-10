@@ -6,6 +6,8 @@ const Api = {
     'uploadFile': () => `${root}/msg/uploadFile`,
     'getPlaceCount': () => `${root}/msg/getPlaceCount`,
     'getCategoryCount': () => `${root}/msg/getCategoryCount`,
+    'getWordCount': () => `${root}/msg/getWordCount`,
+
 };
 
 export default Api;
