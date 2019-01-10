@@ -145,7 +145,7 @@ class DataManager extends React.Component {
             <div> 
                 <Row>
                     <Col>
-                       <Table columns={columns} dataSource={data} scroll={{ y: 600 }} />
+                       <Table columns={columns} dataSource={data} scroll={{ y: 600 }}/>
                     </Col>
                 </Row>
             </div>
