@@ -33,6 +33,8 @@ class DataImortation extends React.Component {
         // 获取上传的文件对象
         // const { files } = file.target;
         // 通过FileReader对象读取文件
+
+        this.setState({ loading: true });
         
         const fileReader = new FileReader();
 
@@ -86,7 +88,7 @@ class DataImortation extends React.Component {
                         } else {
                             message.error("上传失败，请重试");
                         }
-                        this.setState({ loading: true });
+                        this.setState({ loading: false });
                     });
                 } else {
                     message.error('文件内容需包含，\'问题类别\'、\'问题属地\' 、\'问题描述\'字段且不能为空！');
@@ -206,11 +208,13 @@ class DataImortation extends React.Component {
                     </Col>
                 </Row>
                 <br />
-                <Row>
-                    <Col>
-                       <Table columns={columns} dataSource={data} scroll={{ y: 600 }} />
-                    </Col>
-                </Row>
+                <Spin spinning={this.state.loading}>
+                    <Row>
+                        <Col>
+                        <Table columns={columns} dataSource={data} scroll={{ y: 600 }} />
+                        </Col>
+                    </Row>
+                </Spin>
             </div>
         )
     }

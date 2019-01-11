@@ -40,7 +40,8 @@ export const pieOption = {
           {value:1548, name:'搜索引擎'}		
         ]		
       }		
-    ]		
+    ],
+    animation: false,
   };		
 
    //柱状图数据		
@@ -79,7 +80,8 @@ export const pieOption = {
         barWidth: '60%',		
         data:[10, 52, 200, 334, 390, 330, 220]		
       }		
-    ]		
+    ],
+    animation: false,		
   };		
 
   //折线图数据		
@@ -164,5 +166,6 @@ export const pieOption = {
         areaStyle: {normal: {}},		
         data:[820, 932, 901, 934, 1290, 1330, 1320]		
       }		
-    ]		
+    ],
+    animation: false,
   };
