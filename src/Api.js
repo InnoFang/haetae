@@ -8,7 +8,8 @@ const Api = {
     'getCategoryCount': () => `${root}/msg/getCategoryCount`,
     'getWordCount': () => `${root}/msg/getWordCount`,
     'getNameCount': () => `${root}/msg/getNameCount`,
-    'getDetailByName': (name) => `${root}/msg/nameList/?describes=${name}`
+    'getDetailByName': (name) => `${root}/msg/nameList/?describes=${name}`,
+    'addMessage': (category, location, describes) => `${root}/msg/add?category=${category}&location=${location}&describes=${describes}`,
 };
 
 export default Api;

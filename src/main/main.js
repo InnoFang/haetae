@@ -59,12 +59,12 @@ class Main extends React.Component {
                   </Menu.Item>
                   <Menu.Item key="2">
                     <Icon type="cloud-upload" />
-                    <span>数据导入</span>
+                    <span>文件导入</span>
                     <Link to="/data-importation"/>
                   </Menu.Item>
                   <Menu.Item key="3">
                     <Icon type="scan" />
-                    <span>图片识别</span>
+                    <span>图片输入</span>
                     <Link to="/image-recongnition"/>
                   </Menu.Item>
                   <Menu.Item key="4">
