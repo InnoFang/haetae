@@ -35,9 +35,11 @@ class DataManager extends React.Component {
             .catch(error => console.error('Error:', error))
             .then(response => {
                 const { code, msg, data } = response;
+                let reverseData = data.reverse();
                 if (code === 0) {
-                    for (let item of data) {
-                        item['key'] = `${item['id']}`;
+                    let i = 1;
+                    for (let item of reverseData) {
+                        item['key'] = `${i++}`;
                         delete item.id;
                     }
                     // console.log(data);
@@ -45,7 +47,7 @@ class DataManager extends React.Component {
                 } else {
                     console.log(msg);
                 }
-                this.setState({ data, loading: false });
+                this.setState({ data: reverseData, loading: false });
             });
     }
 
