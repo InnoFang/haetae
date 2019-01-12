@@ -1,0 +1,12 @@
+.download-div {
+    width: 100%;
+    position: relative;
+    background-color: blue;
+    text-align: center;
+}
+.download {
+    position:absolute; 
+    left:50%;  
+    top:50%; 
+    margin: 0 auto
+}

@@ -60,7 +60,7 @@ class ImageRecongnition extends React.Component {
             .catch(error => console.error('Error:', error))
             .then(response => {
                 console.log(response);
-                const { code, msg, data } = response;
+                const { code, } = response;
                 if (code === 0) {
                     message.success('数据添加成功');
                 } else {

@@ -10,6 +10,8 @@ import $ from 'jquery';
 import FileSaver from 'file-saver';
 import Api from '../../Api'; 
 
+import './reportGeneration.css'
+
 class ReportGeneration extends React.Component {
 
     constructor(props) {
@@ -348,9 +350,7 @@ class ReportGeneration extends React.Component {
         // Create a Blob with the file contents
         let blob = new Blob([fileContent], {
             type: "application/msword;charset=utf-8"
-        });
-        // console.log(fileContent)
-        // console.log('hello')
+        }); 
         FileSaver.saveAs(blob, "信访数据分析报告.doc");
 
         // let content = "测试内容测试内容";
@@ -403,7 +403,12 @@ class ReportGeneration extends React.Component {
                 <br/>
                 <hr/>
                 <br/>
-                <Button type="primary" icon="download" size="large" onClick={this.generateDocument.bind(this)}>下载报告</Button>
+                <div className="download-div">
+                    <Button className="download" type="primary" icon="download" size="large" onClick={this.generateDocument.bind(this)}>
+                        下 载 报 告
+                    </Button>
+                </div>
+                <br />
                 <br />
             </div>
         );
