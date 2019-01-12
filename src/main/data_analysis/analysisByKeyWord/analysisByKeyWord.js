@@ -1,4 +1,5 @@
 import React from 'react'
+import { Spin } from 'antd';
 
 import Api from '../../../Api'
 
@@ -12,11 +13,13 @@ class AnalysisByKeyWord extends React.Component {
         this.state = {
             xAxisData: [],
             yAxisData: [],
-            wordCloudData: []
+            wordCloudData: [],
+            loading: false,
         }
     }
 
     componentDidMount() {
+        this.setState({ loading: true });
         fetch(Api.getWordCount(), {
             method: 'GET',
             headers: {
@@ -29,6 +32,7 @@ class AnalysisByKeyWord extends React.Component {
         .then(response => {
             const { code, msg, data } = response;
             let { xAxisData, yAxisData, wordCloudData } = this.state;
+            this.setState({ loading: false });
             if (code === 0) {
                 for (let key in data) {
                     xAxisData.push(key);
@@ -94,13 +98,14 @@ class AnalysisByKeyWord extends React.Component {
                         shadowColor: '#333'
                     }
                 },
-        
                 data: wordCloudData
             }]
         };
 
        return <div>
-            <WordCount option={wordCloudOption} height="800px"/>
+           <Spin spinning={this.state.loading}  size="large">
+                <WordCount option={wordCloudOption} height="800px"/>
+            </Spin>
         </div>
     }
 }
