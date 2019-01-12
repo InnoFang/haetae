@@ -9,7 +9,8 @@ import {
     Col,
     Form,
     Divider,
-    message 
+    message,
+    Spin
 } from 'antd';
 import Api from '../../Api';
 
@@ -23,6 +24,8 @@ class ImageRecongnition extends React.Component {
             previewVisible: false,
             previewImage: '',
             fileList: [],
+            recongnitionResult: '',
+            loading: false,
         }
     }
 
@@ -69,6 +72,31 @@ class ImageRecongnition extends React.Component {
             });
     }
 
+    handleUpload(file) {
+        this.setState({ loading: true });
+
+        const  formData = new FormData();
+        formData.append("picName", file);
+        fetch(Api.imageRecongnition(), {
+            method: 'POST',
+            mode: 'cors',
+            body: formData,
+        }).then(res => res.json())
+        .catch(error => console.error('Error:', error))
+        .then(response => {
+            const { code, data } = response;
+            console.log(response)
+            if (code === 0) {
+                message.success('上传成功！')
+                this.setState({ recongnitionResult: data });
+                console.log(data);
+            } else {
+                message.error("上传失败，请重试");
+            }
+            this.setState({ loading: false });
+        });
+    }
+
     render() {
 
         const { previewVisible, previewImage, fileList } = this.state;
@@ -84,8 +112,10 @@ class ImageRecongnition extends React.Component {
 
         const uploadButton = (
             <div>
-                <Icon type="plus" />
-                <div className="ant-upload-text">点击上传图片</div>
+                <Spin spinning={this.state.loading}>
+                    <Icon type="plus" />
+                    <div className="ant-upload-text">点击上传图片</div>
+                </Spin>
             </div>
         );
 
@@ -131,7 +161,7 @@ class ImageRecongnition extends React.Component {
                 <Col span={12}>
                 <div className="clearfix">
                     <Upload
-                        action="//jsonplaceholder.typicode.com/posts/"
+                        action={this.handleUpload.bind(this)}
                         listType="picture-card"
                         fileList={fileList}
                         onPreview={this.handlePreview}
@@ -141,7 +171,7 @@ class ImageRecongnition extends React.Component {
                         {uploadButton}
                     </Upload>
                     <Divider>识别内容如下</Divider>
-                    <TextArea  autosize={{ minRows: 20 }}/>
+                    <TextArea  autosize={{ minRows: 20 }} value={this.state.recongnitionResult}></TextArea>
                     <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
                         <img alt="example" style={{ width: '100%' }} src={previewImage} />
                     </Modal>

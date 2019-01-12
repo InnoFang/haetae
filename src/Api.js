@@ -10,6 +10,7 @@ const Api = {
     'getNameCount': () => `${root}/msg/getNameCount`,
     'getDetailByName': (name) => `${root}/msg/nameList/?describes=${name}`,
     'addMessage': (category, location, describes) => `${root}/msg/add?category=${category}&location=${location}&describes=${describes}`,
+    'imageRecongnition': () => `${root}/msg/recognition`,
 };
 
 export default Api;
