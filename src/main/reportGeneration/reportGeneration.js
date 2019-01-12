@@ -8,7 +8,7 @@ import 'echarts/lib/chart/pie'     // 引入饼状图
 import echarts from 'echarts/lib/echarts';
 import $ from 'jquery';
 import FileSaver from 'file-saver';
-import Api from '../../Api';
+import Api from '../../Api'; 
 
 class ReportGeneration extends React.Component {
 
@@ -20,7 +20,7 @@ class ReportGeneration extends React.Component {
             barXAxisData: [],
             barYAxisData: [],
             title: '信访数据分析报告',
-            date: '',
+            date: `日期：${new Date().toLocaleDateString()}`,
             content: [{
                 image: '',
                 description: '',
@@ -30,87 +30,110 @@ class ReportGeneration extends React.Component {
                 description: '',
             }]
         }
-
-        let today= new Date();
-        this.setState({ date: today.toLocaleDateString() });
     }
 
     componentDidMount() {
+        // 获取顺序：Location -> Category 
+        // 为了防止异步操作出现问题，使用了 Promise 的方式
+        this.fetchLocationCount()
+        .then(() => this.initBarChart())
+        .then(() => this.fetchCategoryCount())
+        .then(() => this.initPieChart())
+    }
+ 
+    fetchLocationCount() {
+        return new Promise((resolve, reject) => { 
+            // 获取问题归属情况
+            fetch(Api.getPlaceCount(), {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                mode: 'cors',
+            }).then(res => res.json())
+            .catch(error => console.error('Error:', error))
+            .then(response => {
+                const { code, msg, data } = response;
+                let barXAxisData = [];
+                let barYAxisData = [];
+                if (code === 0) { 
+                    let sortX = Object.keys(data).sort((a,b) => data[b] - data[a]);
+                    let sortData = {}
+                    for (let i = 0; i < sortX.length; i++) {
+                        sortData[sortX[i]] = data[sortX[i]];
+                    }
+                    for (let key in sortData) {
+                        barXAxisData.push(key);
+                        barYAxisData.push(sortData[key]);
+                    }
 
-        // 获取问题类别数据
-        fetch(Api.getCategoryCount(), {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            mode: 'cors',
-        }).then(res => res.json())
-        .catch(error => console.error('Error:', error))
-        .then(response => {
-            const { code, msg, data } = response;
-            let { pieXAxisData, pieYAxisData } = this.state;
-
-            if (code === 0) {
-                let sortData = Object.keys(data).sort((a,b) => data[b] - data[a]);
-                
-                for (let key in sortData) {
-                    pieXAxisData.push(key);
-                    pieYAxisData.push(sortData[key]);
+                    // 如果长度大于 size，那么显示前面，其他的值求和且以‘其他’展示
+                    const size = 4;
+                    if (barXAxisData.length >= size) {
+                        barXAxisData = barXAxisData.slice(0, size);
+                        // barXAxisData.push("其他");
+                        // let otherSum = barYAxisData.slice(size, sortData.length).reduce((prev, curr, idx, arr) => prev + curr);
+                        barYAxisData = barYAxisData.slice(0, size);
+                        // barYAxisData.push(otherSum);
+                    } 
+                    this.setState({ barXAxisData, barYAxisData }); 
+                    // this.initBarChart();
+                    resolve();
+                } else {
+                    console.log(msg);
+                    reject();
                 }
-
-                // 如果长度大于 10，那么显示前面 9 个，其他的值求和且以‘其他’展示
-                if (sortData.length >= 10) {
-                    pieXAxisData = pieXAxisData.slice(0, 10);
-                    pieXAxisData.push("其他");
-                    let otherSum = pieYAxisData.slice(10, sortData.length).reduce((prev, curr, idx, arr) => prev + curr);
-                    pieYAxisData = pieYAxisData.slice(0, 10);
-                    pieYAxisData.push(otherSum);
-                } 
-                this.setState({ pieXAxisData, pieYAxisData });
-                console.log(pieYAxisData);
-                this.initPieChart();
-            } else {
-                console.log(msg);
-            }
+            });
+            resolve();
         });
+    }
 
-        // 获取问题归属情况
-        fetch(Api.getPlaceCount(), {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            mode: 'cors',
-        }).then(res => res.json())
-        .catch(error => console.error('Error:', error))
-        .then(response => {
-            const { code, msg, data } = response;
-            let { barXAxisData, barYAxisData } = this.state;
-            if (code === 0) {
+    fetchCategoryCount() {
+        return new Promise((resolve, reject) => {
+            // 获取问题类别数据
+            fetch(Api.getCategoryCount(), {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                mode: 'cors',
+            }).then(res => res.json())
+            .catch(error => console.error('Error:', error))
+            .then(response => {
+                const { code, msg, data } = response;
+                let pieXAxisData = [];
+                let pieYAxisData = [];
+                if (code === 0) {
+                    let sortX = Object.keys(data).sort((a,b) => data[b] - data[a]);
+                    let sortData = {}
+                    for (let i = 0; i < sortX.length; i++) {
+                        sortData[sortX[i]] = data[sortX[i]];
+                    }
+                    for (let key in sortData) {
+                        pieXAxisData.push(key);
+                        pieYAxisData.push(sortData[key]);
+                    }
 
-                let sortData = Object.keys(data).sort((a,b) => data[b] - data[a]);
-                
-                for (let key in sortData) {
-                    barXAxisData.push(key);
-                    barYAxisData.push(sortData[key]);
+                   // 如果长度大于 size，那么显示前面，其他的值求和且以‘其他’展示
+                   const size = 5;
+                    if (pieXAxisData.length >= size) {
+                        pieXAxisData = pieXAxisData.slice(0, size);
+                        pieXAxisData.push("其他");
+                        let otherSum = pieYAxisData.slice(size, sortData.length).reduce((prev, curr, idx, arr) => prev + curr);
+                        pieYAxisData = pieYAxisData.slice(0, size);
+                        pieYAxisData.push(otherSum);
+                    } 
+                    this.setState({ pieXAxisData, pieYAxisData }); 
+                    // this.initPieChart();
+                    resolve();
+                } else {
+                    console.log(msg);
+                    reject();
                 }
-
-                // 如果长度大于 10，那么显示前面 9 个，其他的值求和且以‘其他’展示
-                if (sortData.length >= 10) {
-                    barXAxisData = barXAxisData.slice(0, 10);
-                    barXAxisData.push("其他");
-                    let otherSum = barYAxisData.slice(10, sortData.length).reduce((prev, curr, idx, arr) => prev + curr);
-                    barYAxisData = barYAxisData.slice(0, 10);
-                    barYAxisData.push(otherSum);
-                } 
-                this.setState({ barXAxisData, barYAxisData });
-                console.log(barYAxisData);
-                this.initbarChart();
-            } else {
-                console.log(msg);
-            }
+            });
+      
         });
     }
 
@@ -118,130 +141,139 @@ class ReportGeneration extends React.Component {
      * 初始化饼图
      */
     initPieChart(){
-        const { pieXAxisData, pieYAxisData, content } = this.state;
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                const { pieXAxisData, pieYAxisData, content } = this.state;
 
-        let pieData = [];
+                let pieData = [];
 
-        for (let i = 0; i < pieXAxisData.length; i++) {
-            pieData.push({
-                value: pieYAxisData[i],
-                name: pieXAxisData[i],
-            })
-        }
-        console.log(pieData)
+                for (let i = 0; i < pieXAxisData.length; i++) {
+                    pieData.push({
+                        value: pieYAxisData[i],
+                        name: pieXAxisData[i],
+                    })
+                }
+                // console.log(pieData)
 
-        const pieOption = {		
-            tooltip: {		
-              trigger: 'item',		
-              formatter: "{a} <br/>{b}: {c} ({d}%)"		
-            },		
-            legend: {		
-              orient: 'vertical',		
-              x: 'left',		
-              data: pieXAxisData	
-            },		
-            series: [		
-              {		
-                name:'问题类别',		
-                type:'pie',		
-                radius: ['100%', '70%'],		
-                avoidLabelOverlap: false,		
-                label: {		
-                  normal: {		
-                    show: false,		
-                    position: 'center'		
-                  },		
-                  emphasis: {		
-                    show: true,		
-                    textStyle: {		
-                      fontSize: '30',		
-                      fontWeight: 'bold'		
+                const pieOption = {		
+                    tooltip: {		
+                    trigger: 'item',		
+                    formatter: "{a} <br/>{b}: {c} ({d}%)"		
+                    },		
+                    legend: {		
+                    orient: 'vertical',		
+                    x: 'left',		
+                    data: pieXAxisData	
+                    },		
+                    series: [		
+                    {		
+                        name:'问题类别',		
+                        type:'pie',		
+                        radius: ['100%', '70%'],		
+                        avoidLabelOverlap: false,		
+                        label: {		
+                        normal: {		
+                            show: false,		
+                            position: 'center'		
+                        },		
+                        emphasis: {		
+                            show: true,		
+                            textStyle: {		
+                            fontSize: '30',		
+                            fontWeight: 'bold'		
+                            }		
+                        }		
+                        },		
+                        labelLine: {		
+                        normal: {		
+                            show: false		
+                        }		
+                        },		
+                        data: pieData,
                     }		
-                  }		
-                },		
-                labelLine: {		
-                  normal: {		
-                    show: false		
-                  }		
-                },		
-                data: pieData,
-              }		
-            ],
-            animation: false,
-          };
+                    ],
+                    animation: false,
+                };
+        
+                let pieChart = echarts.init(document.getElementById("pieChart"));
+                pieChart.setOption(pieOption);
 
+                let descriptionTemplate = `根据信访数据情报，${pieXAxisData[0]} 是目前信访提及最多的问题，需要引起广泛关注与重视`;
 
-
-        let pieChart = echarts.init(document.getElementById("pieChart"));
-        pieChart.setOption(pieOption);
-
-        let descriptionTemplate = `根据信访数据情报，${pieXAxisData[0]} 是目前信访提及最多的问题，需要引起广泛关注与重视`;
-
-        content.push({
-            image: pieChart.getDataURL(),
-            description: descriptionTemplate,
+                content[1] = {
+                    image: pieChart.getDataURL(),
+                    description: descriptionTemplate,
+                };
+                console.log(content)
+                this.setState({ content });
+                console.log("fetchCategoryCount")
+                resolve();
+            }, 200);
         });
-
-        this.setState({ content });
     }
 
     /**
      * 初始化柱状图
      */
-    initbarChart() {
+    initBarChart() {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                const { barXAxisData, barYAxisData, content } = this.state;
 
-        const { barXAxisData, barYAxisData, content } = this.state;
+                const barOption = {		
+                    color: ['#3398DB'],		
+                    tooltip : {		
+                    trigger: 'axis',		
+                    axisPointer : {            // 坐标轴指示器，坐标轴触发有效		
+                        type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'		
+                    }		
+                    },		
+                    grid: {		
+                    left: '3%',		
+                    right: '4%',		
+                    bottom: '3%',		
+                    containLabel: true		
+                    },		
+                    xAxis : [		
+                    {		
+                        type : 'category',		
+                        data : barXAxisData,		
+                        axisTick: {		
+                        alignWithLabel: true		
+                        }		
+                    }		
+                    ],		
+                    yAxis : [		
+                    {		
+                        type : 'value'		
+                    }		
+                    ],		
+                    series : [		
+                    {		
+                        name:'问题类别',		
+                        type:'bar',		
+                        barWidth: '60%',		
+                        data: barYAxisData,	
+                    }		
+                    ],
+                    animation: false,		
+                };	
+                
+                let barChart = echarts.init(document.getElementById("barChart"));
+                barChart.setOption(barOption);
+                
+                let descriptionTemplate = `根据信访数据情报，${barXAxisData[0]} 是目前接到信访举报次数最多的地方，需要引起广泛关注与重视`;
 
-        const barOption = {		
-            color: ['#3398DB'],		
-            tooltip : {		
-              trigger: 'axis',		
-              axisPointer : {            // 坐标轴指示器，坐标轴触发有效		
-                type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'		
-              }		
-            },		
-            grid: {		
-              left: '3%',		
-              right: '4%',		
-              bottom: '3%',		
-              containLabel: true		
-            },		
-            xAxis : [		
-              {		
-                type : 'category',		
-                data : barXAxisData,		
-                axisTick: {		
-                  alignWithLabel: true		
-                }		
-              }		
-            ],		
-            yAxis : [		
-              {		
-                type : 'value'		
-              }		
-            ],		
-            series : [		
-              {		
-                name:'问题类别',		
-                type:'bar',		
-                barWidth: '60%',		
-                data: barYAxisData,	
-              }		
-            ],
-            animation: false,		
-          };	
-        
-        let barChart = echarts.init(document.getElementById("barChart"));
-        barChart.setOption(barOption);
-        
-        let descriptionTemplate = `根据信访数据情报，${barXAxisData[0]} 是目前接到信访举报次数最多的地方，需要引起广泛关注与重视`;
-
-        content.push({
-            image: barChart.getDataURL(),
-            description: descriptionTemplate,
-        })
-
-        this.setState({ content });
+                content[0] = {
+                    image: barChart.getDataURL(),
+                    description: descriptionTemplate,
+                };
+                console.log(content)
+                this.setState({ content }); 
+                console.log("fetchLocationCount");
+                resolve();
+            }, 200);
+        });
     }
 
 
@@ -369,32 +401,34 @@ class ReportGeneration extends React.Component {
            desc2 = content.length === 2 ? '' : `${content[1]['description']}`;
            img1 =  content.length === 1 ? '' : `${content[0]['image']}`;
            img2 =  content.length === 2 ? '' : `${content[1]['image']}`;
-        } else {
-            return <div></div>
-        }
-
+        }  
         return (
             <div>
-                <Button type="primary" onClick={this.generateDocument.bind(this)}>生成报告</Button>
+                <div style={{ width: "1000px", margin:"0 auto"}}>
+                    <div id="pageContent">
+                        <h1 align="center">{this.state.title}</h1>
+                        <hr />
+                        <p align="center">{this.state.date}</p>
+                        <br />
+                        <div id="barChart" style={{ width: "800px", height:"500px", display: "none" }}></div>
+                        <img src={img1} alt="barChart"/>
+                        <br />
+                        <p>{desc1}</p>
+                        <br />
+                        <br />
+                        <div id="pieChart" style={{ width: "800px", height:"500px", display: "none" }}></div>
+                        <img src={img2} alt="pieChart"/>
+                        <br />
+                        <p>{desc2}</p>
+                    </div> 
+                </div>
+                <br/>
+                <br/>
+                <br/>
+                <hr/>
+                <br/>
+                <Button type="primary" icon="download" size="large" onClick={this.generateDocument.bind(this)}>下载报告</Button>
                 <br />
-                <br />
-                <div id="pageContent">
-                    <h1 align="center">{this.state.title}</h1>
-                    <hr />
-                    <p align="center">{this.state.date}</p>
-                    <br />
-                    <br />
-                    <div id="barChart" style={{ width: "600px", height:"400px", display: "none" }}></div>
-                    <img src={img1} alt="barChart"/>
-                    <br />
-                    <p>{desc1}</p>
-                    <br />
-                    <br />
-                    <div id="pieChart" style={{ width: "600px", height:"400px", display: "none" }}></div>
-                    <img src={img2} alt="pieChart"/>
-                    <br />
-                    <p>{desc2}</p>
-                </div> 
             </div>
         );
     }
