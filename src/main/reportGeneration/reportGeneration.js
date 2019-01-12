@@ -281,13 +281,11 @@ class ReportGeneration extends React.Component {
         let img = new Image();
         img = markup.find('img');
         // if (isbase64){
-            const { content } = this.state;
             // for (let i = 0; i < content.length; i++) {
             //     console.log(content[i]["image"])
             // }
             for (let i = 0; i < img.length; i++) {
-                let uri = content[i]["image"];
-                // let uri = img[i].src;
+                let uri = img[i].src;
                 images[i] = {
                     type: uri.substring(uri.indexOf(":") + 1, uri.indexOf(";")),
                     encoding: uri.substring(uri.indexOf(";") + 1, uri.indexOf(",")),
@@ -389,13 +387,15 @@ class ReportGeneration extends React.Component {
                         <div id="barChart" style={{ width: "800px", height:"500px", display: "none" }}></div>
                         <img src={barContent['image']} alt="barChart"/>
                         <br />
-                        <p>{barContent['description']}</p>
+                        <br />
+                        <p><strong>简要分析：</strong> {barContent['description']}</p>
                         <br />
                         <br />
                         <div id="pieChart" style={{ width: "800px", height:"500px", display: "none" }}></div>
                         <img src={pieContent['image']} alt="pieChart"/>
                         <br />
-                        <p>{pieContent['description']}</p>
+                        <br />
+                        <p><strong>简要分析：</strong> {pieContent['description']}</p>
                     </div> 
                 </div>
                 <br/>
