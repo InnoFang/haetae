@@ -6,11 +6,11 @@ import './main.css';
 
 import DataManager from './dataManager/dataManager';
 import DataImportation from './dataImportation/dataImportation';
+import ImageRecongnition from './imageRecongnition/imageRecongnition';
 import PersonStatistics from './personStatistics/personStatistics';
 import AnalysisByLocation from './data_analysis/analysisByLocation/analysisByLocation';
 import AnalysisByKeyWord from './data_analysis/analysisByKeyWord/analysisByKeyWord';
 import AnalysisByCategory from './data_analysis/analysisByCategory/analysisByCategory';
-
 import ReportGeneration from './reportGeneration/reportGeneration';
 
 import SubMenu from 'antd/lib/menu/SubMenu';
@@ -63,28 +63,33 @@ class Main extends React.Component {
                     <Link to="/data-importation"/>
                   </Menu.Item>
                   <Menu.Item key="3">
+                    <Icon type="scan" />
+                    <span>图片识别</span>
+                    <Link to="/image-recongnition"/>
+                  </Menu.Item>
+                  <Menu.Item key="4">
                     <Icon type="user" />
                     <span>人员统计</span>
                     <Link to="/person-statistics"/>
                   </Menu.Item>
                   <SubMenu key="sub" title={<span><Icon type="line-chart" /><span>数据分析</span></span>}>
-                    <Menu.Item key="4">
+                    <Menu.Item key="5">
                       <Icon type="bar-chart" />
                       <span>按地名分析</span> 
                       <Link to="/analysis-by-location"/>
                     </Menu.Item>
-                    <Menu.Item key="5">
+                    <Menu.Item key="6">
                       <Icon type="pie-chart" />
                       <span>按类别分析</span> 
                       <Link to="/analysis-by-category"/>
                     </Menu.Item>
-                    <Menu.Item key="6">
+                    <Menu.Item key="7">
                       <Icon type="dot-chart" />
                       <span>关键字分析</span> 
                       <Link to="/analysis-by-keyword"/>
                     </Menu.Item>
                   </SubMenu>
-                  <Menu.Item key="7">
+                  <Menu.Item key="8">
                     <Icon type="file-word" />
                     <span>报告生成</span>
                     <Link to="/report-generation"/>
@@ -105,11 +110,12 @@ class Main extends React.Component {
                 <Route key={1} path="/"  component={DataManager} exact /> 
                 <Route key={2} path="/data-manager"  component={DataManager} /> 
                 <Route key={3} path="/data-importation"  component={DataImportation} /> 
-                <Route key={4} path="/person-statistics"  component={PersonStatistics} /> 
-                <Route key={5} path="/analysis-by-location"  component={AnalysisByLocation} /> 
-                <Route key={6} path="/analysis-by-category"  component={AnalysisByCategory} /> 
-                <Route key={7} path="/analysis-by-keyword"  component={AnalysisByKeyWord} /> 
-                <Route key={8} path="/report-generation"  component={ReportGeneration} /> 
+                <Route key={4} path="/image-recongnition"  component={ImageRecongnition} /> 
+                <Route key={5} path="/person-statistics"  component={PersonStatistics} /> 
+                <Route key={6} path="/analysis-by-location"  component={AnalysisByLocation} /> 
+                <Route key={7} path="/analysis-by-category"  component={AnalysisByCategory} /> 
+                <Route key={8} path="/analysis-by-keyword"  component={AnalysisByKeyWord} /> 
+                <Route key={9} path="/report-generation"  component={ReportGeneration} /> 
               </div>
              </Content>
               <Footer />
