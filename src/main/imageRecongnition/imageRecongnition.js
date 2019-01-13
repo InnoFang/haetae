@@ -130,7 +130,7 @@ class ImageRecongnition extends React.Component {
                             {getFieldDecorator('category', {
                                 rules: [{ required: true, message: '请输入问题类别！' }],
                             })(
-                                <Input />
+                                <Input allowClear/>
                             )}
                         </Form.Item>
                         <Form.Item
@@ -140,7 +140,7 @@ class ImageRecongnition extends React.Component {
                             {getFieldDecorator('location', {
                                 rules: [{ required: true, message: '请输入问题属地！' }],
                             })(
-                                <Input />
+                                <Input allowClear/>
                             )}
                         </Form.Item>
                         <Form.Item
@@ -173,7 +173,7 @@ class ImageRecongnition extends React.Component {
                     <Divider>识别内容如下</Divider>
                     <TextArea  autosize={{ minRows: 20 }} value={this.state.recongnitionResult}></TextArea>
                     <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
-                        <img alt="example" style={{ width: '100%' }} src={previewImage} />
+                        <img alt="example" style={{ width: '100%' }} src={previewImage} />  
                     </Modal>
                 </div>
                 </Col>
