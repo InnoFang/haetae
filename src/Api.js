@@ -11,6 +11,8 @@ const Api = {
     'getDetailByName': (name) => `${root}/msg/nameList/?describes=${name}`,
     'addMessage': (category, location, describes) => `${root}/msg/add?category=${category}&location=${location}&describes=${describes}`,
     'imageRecongnition': () => `${root}/msg/recognition`,
+    'getName': () => `${root}/name/getName`,
+    'uploadPersonnelFile': () => `${root}/name/uploadFile`
 };
 
 export default Api;

@@ -197,7 +197,7 @@ class DataImortation extends React.Component {
                     <Col span={2}>
                         <Upload name="file" accept='.xlsx, .xls' showUploadList={false} customRequest={this.onHandleImportExcel}>
                             <Button type="primary" icon="cloud-upload">
-                                上传文件
+                                上 传 文 件
                             </Button>
                         </Upload>
                     </Col>
