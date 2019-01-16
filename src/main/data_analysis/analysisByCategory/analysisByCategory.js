@@ -3,7 +3,7 @@ import Api from '../../../Api'
 import { 
     Row, 
     Col,
-    DatePicker 
+    DatePicker
 } from 'antd';
 import asyncComponenet from '../../../component/asyncComponent';
 const PieChart = asyncComponenet(() => import('../../../component/echarts/pieChart'));
@@ -21,9 +21,7 @@ class AnalysisByCategory extends React.Component {
         }
     }
 
-
     updateData(response) { 
-
         const { code, msg, data } = response;
         console.log(data)
         let xAxisData = [];

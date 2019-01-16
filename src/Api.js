@@ -11,10 +11,11 @@ const Api = {
     'getWordCount': () => `${root}/msg/getWordCount`,
     'getNameCount': () => `${root}/msg/getNameCount`,
     'getDetailByName': (name) => `${root}/msg/nameList/?describes=${name}`,
-    'addMessage': (category, location, describes) => `${root}/msg/add?category=${category}&location=${location}&describes=${describes}`,
+    'addMessage': (category, location, describes, time) => `${root}/msg/add?category=${category}&location=${location}&describes=${describes}&time=${time}`,
     'imageRecongnition': () => `${root}/msg/recognition`,
     'getName': () => `${root}/name/getName`,
-    'uploadPersonnelFile': () => `${root}/name/uploadFile`
+    'uploadPersonnelFile': () => `${root}/name/uploadFile`,
+    'recommendLabel': (text) => `${root}/msg/label?text=${text}`
 };
 
 export default Api;

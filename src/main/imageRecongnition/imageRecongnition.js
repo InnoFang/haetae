@@ -10,7 +10,9 @@ import {
     Form,
     Divider,
     message,
-    Spin
+    Spin,
+    Tag,
+    DatePicker
 } from 'antd';
 import Api from '../../Api';
 
@@ -26,6 +28,10 @@ class ImageRecongnition extends React.Component {
             fileList: [],
             recongnitionResult: '',
             loading: false,
+            uncheckable: true,
+            categoryContent: '',
+            descriptionContent: '',
+            labels: []
         }
     }
 
@@ -50,9 +56,11 @@ class ImageRecongnition extends React.Component {
     }
 
     addMessage(values) {
-        const { category, location, description } = values;
+        const { category, location, description, date } = values;
 
-        fetch(Api.addMessage(category, location, description), {
+        let formatDate = values['date'].format('YYYY-MM-DD');
+
+        fetch(Api.addMessage(category, location, description, formatDate), {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -97,9 +105,53 @@ class ImageRecongnition extends React.Component {
         });
     }
 
+    onHandleCategoryChange(e) {
+        console.log(e.target.value)
+        this.setState({ categoryContent: e.target.value });
+    }
+
+    onHandleDescriptionChange(e) {
+        let value = e.target.value;
+        this.setState({ descriptionContent: value});
+        if (value !== '') {
+            this.setState({ uncheckable: false });
+        } else {
+            this.setState({ labels: [], uncheckable: true });
+        }
+    }
+
+    onHandleRecommend() {
+        const { descriptionContent } = this.state;
+        fetch(Api.recommendLabel(descriptionContent), {
+            method: 'POST',
+            mode: 'cors',
+        }).then(res => res.json())
+        .catch(error => console.error('Error:', error))
+        .then(response => {
+            const { code, data } = response;
+            console.log(response)
+            if (code === 0) {
+                console.log(data);
+                let sortLabels = Object.keys(data).sort((a, b) => data[b] - data[a]);
+                this.setState({ labels: sortLabels.slice(0, 5) });
+            } else {
+                message.error("推荐失败，请重试");
+            }
+            this.setState({ loading: false });
+        });
+    }
+
+    onHandleRecongnitionResult(e) {
+        this.setState({ recongnitionResult: e.target.value });
+    }
+
+    onHandleClickTag(value) {
+        this.setState({ categoryContent: value });
+    }
+
     render() {
 
-        const { previewVisible, previewImage, fileList } = this.state;
+        const { previewVisible, previewImage, fileList, labels } = this.state;
         const { getFieldDecorator } = this.props.form;
 
         const formItemLayout =   {
@@ -123,15 +175,35 @@ class ImageRecongnition extends React.Component {
             <Row>
                 <Col span={12}>
                     <Form layout='horizontal'  onSubmit={this.handleSubmitMessage} >
+                         <Form.Item
+                            label="信访时间"
+                            {...formItemLayout}
+                        >
+                            {getFieldDecorator('date', {
+                                type: 'object',
+                                rules: [{ required: true, message: '请选择信访时间！' }],
+                            })(
+                                <DatePicker />
+                            )}
+                        </Form.Item>
                         <Form.Item
                             label="问题类别"
                             {...formItemLayout}
                         >
                             {getFieldDecorator('category', {
                                 rules: [{ required: true, message: '请输入问题类别！' }],
+                                initialValue: this.state.categoryContent
                             })(
-                                <Input allowClear/>
+                                <Input value={this.state.categoryContent} onChange={this.onHandleCategoryChange.bind(this)} allowClear/>
                             )}
+                        </Form.Item>
+                        <Form.Item
+                            label="标签推荐"
+                            {...formItemLayout}
+                        >
+                            <div>{labels.map((value, index) => 
+                                    <Tag key={index} onClick={this.onHandleClickTag.bind(this, value)}>{value}</Tag>)}
+                            </div>
                         </Form.Item>
                         <Form.Item
                             label="问题属地"
@@ -148,13 +220,15 @@ class ImageRecongnition extends React.Component {
                             {...formItemLayout}
                         >
                             {getFieldDecorator('description', {
+                                initialValue: this.state.descriptionContent,
                                 rules: [{ required: true, message: '请输入问题描述！' }],
                             })(
-                                <TextArea  autosize={{ minRows: 10 }} />
+                                <TextArea  autosize={{ minRows: 10 }} onChange={this.onHandleDescriptionChange.bind(this)}/>
                             )}
                         </Form.Item>
                         <Form.Item {...buttonItemLayout}>
-                            <Button type="primary" htmlType="submit">提   交</Button>
+                            <Button type="danger" disabled={this.state.uncheckable} onClick={this.onHandleRecommend.bind(this)} style={{ width: '45%', marginRight: "15px" }}>推荐类别</Button>
+                            <Button type="primary" htmlType="submit" style={{ width: '45%', marginLeft: "15px" }}>添加信息</Button>
                         </Form.Item>
                     </Form>
                 </Col>
@@ -171,7 +245,7 @@ class ImageRecongnition extends React.Component {
                         {uploadButton}
                     </Upload>
                     <Divider>识别内容如下</Divider>
-                    <TextArea  autosize={{ minRows: 20 }} value={this.state.recongnitionResult}></TextArea>
+                    <TextArea  autosize={{ minRows: 20 }} value={this.state.recongnitionResult} onChange={this.onHandleRecongnitionResult.bind(this)}></TextArea>
                     <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
                         <img alt="example" style={{ width: '100%' }} src={previewImage} />  
                     </Modal>
