@@ -40,6 +40,7 @@ class DataManager extends React.Component {
                     let i = 1;
                     for (let item of reverseData) {
                         item['key'] = `${i++}`;
+                        item['date'] = `${item['date'].substring(0, 10)}`
                         delete item.id;
                     }
                     // console.log(data);
@@ -118,8 +119,14 @@ class DataManager extends React.Component {
             title: '问题序号',
             dataIndex: 'key',
             key: 'key',
-            width: '10%',
+            width: '7%',
             ...this.getColumnSearchProps('key'),
+          }, {
+            title: '信访时间',
+            dataIndex: 'date',
+            key: 'date',
+            width: '8%',
+            ...this.getColumnSearchProps('date'),
           }, {
             title: '问题类别',
             dataIndex: 'category',
