@@ -1,10 +1,20 @@
 import React from 'react'
+import { 
+    Row, 
+    Col,
+    DatePicker 
+} from 'antd';
 import echarts from 'echarts';
 
 import Api from '../../../Api'
+import './analysisByLocation.css';
 
 import asyncComponenet from '../../../component/asyncComponent';
+
 const BarChart = asyncComponenet(() => import('../../../component/echarts/barChart'));
+
+const { RangePicker } = DatePicker;
+
 
 class AnalysisByLocation extends React.Component {
 
@@ -121,7 +131,21 @@ class AnalysisByLocation extends React.Component {
         };
 
        return <div>
-            <BarChart option={barOption} height="500px"/>
+           <Row>
+                <Col>
+                    <div className="rangePicker-div">
+                        <RangePicker className="rangePicker"/>
+                    </div>
+                </Col>
+           </Row>
+           <br />
+           <br />
+           <br />
+           <Row>
+                <Col>
+                    <BarChart option={barOption} height="500px"/>
+                </Col>
+           </Row>
         </div>
     }
 }

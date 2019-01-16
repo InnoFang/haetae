@@ -8,7 +8,7 @@ import {
     Row,
     Col,
     message,
-    Upload
+    Upload,
 } from 'antd'
 import XLSX from 'xlsx';
 
