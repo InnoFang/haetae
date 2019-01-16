@@ -8,7 +8,7 @@ import {
     Row,
     Col,
     message,
-    Upload,
+    Upload
 } from 'antd'
 import XLSX from 'xlsx';
 
@@ -40,7 +40,7 @@ class PersonStatistics extends React.Component {
     }
 
     componentDidMount() {
-        fetch(Api.getName(), {
+        fetch(Api.getNameCount(), {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -52,12 +52,12 @@ class PersonStatistics extends React.Component {
             .then(response => {
                 const { code, msg, data } = response;
                 let { dataList } = this.state;
-                // console.log(data)
+                console.log(data)
                 if (code === 0) {
-                    for (let item of data) {
+                    for (let key in data) {
                         dataList.push({
-                            title: `${item['name']}`,
-                            description: `信访提及次数：${item['count'] === undefined ? 0 : item['count']} 次`,
+                            title: `${key}`,
+                            description: `信访提及次数：${data[key]} 次`,
                             avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'
                         })
                     }

@@ -15,16 +15,31 @@ const BarChart = asyncComponenet(() => import('../../../component/echarts/barCha
 
 const { RangePicker } = DatePicker;
 
-
 class AnalysisByLocation extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
             xAxisData: [],
-            yAxisData: [],
+            yAxisData: [], 
         }
     }
+
+    updateData(response) {
+        const { code, msg, data } = response;
+        let xAxisData = [];
+        let yAxisData = [];
+        if (code === 0) {
+            for (let key in data) {
+                xAxisData.push(key);
+                yAxisData.push(data[key]);
+            }
+            this.setState({ xAxisData, yAxisData });
+        } else {
+            console.log(msg);
+        }
+    }
+
 
     componentDidMount() {
         fetch(Api.getPlaceCount(), {
@@ -36,22 +51,25 @@ class AnalysisByLocation extends React.Component {
             mode: 'cors',
         }).then(res => res.json())
         .catch(error => console.error('Error:', error))
-        .then(response => {
-            const { code, msg, data } = response;
-            let { xAxisData, yAxisData } = this.state;
-            if (code === 0) {
-                for (let key in data) {
-                    xAxisData.push(key);
-                    yAxisData.push(data[key]);
-                }
-                this.setState({ xAxisData, yAxisData });
-                console.log("显示数据")
-            } else {
-                console.log(msg);
-            }
-        });
+        .then(response => this.updateData(response));
     }
    
+    onHandleSelectDate(dates, dateString) {
+        console.log(dateString); 
+
+        fetch(Api.getPlaceCountByDate(dateString[0],  dateString[1]), {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            mode: 'cors',
+        }).then(res => res.json())
+        .catch(error => console.error('Error:', error))
+        .then(response => this.updateData(response));
+
+    }
+
     render() {
 
         const { xAxisData, yAxisData } = this.state;
@@ -134,7 +152,10 @@ class AnalysisByLocation extends React.Component {
            <Row>
                 <Col>
                     <div className="rangePicker-div">
-                        <RangePicker className="rangePicker"/>
+                        <RangePicker 
+                            className="rangePicker" 
+                            onChange={this.onHandleSelectDate.bind(this)} 
+                            format="YYYY-MM-DD"/>
                     </div>
                 </Col>
            </Row>
