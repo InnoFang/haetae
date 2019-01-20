@@ -7,12 +7,9 @@
 <br />
 <br />
 
-一个信访数据智能情报管理系统的前端代码，用于课程设计。
-
 A front-end code for a petition data intelligence management system for curriculum design.
 
-**PS** 只是项目的一部分而非全部 <br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Just part of the project, not all of it
+**PS** Just part of the project, not all of it
 
 # [License](./LICENSE)
 
