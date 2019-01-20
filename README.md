@@ -11,7 +11,7 @@
 
 A front-end code for a petition data intelligence management system for curriculum design.
 
-**PS** 只是项目的一部分而非全部
+**PS** 只是项目的一部分而非全部 <br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Just part of the project, not all of it
 
 # [License](./LICENSE)
