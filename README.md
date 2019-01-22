@@ -13,13 +13,13 @@
 
 A front-end code for a petition data intelligence management system for curriculum design.
 
-**PS** Just part of the project, not all of it.
+**PS** Just part of the whole project, not all of it.
 
 **For this project, may be you will be interest in:**
 
 + How to import and parse `excel` file by using XLSX in React? [see here](https://github.com/InnoFang/haetae/blob/dev/src/main/dataImportation/dataImportation.js)
 + How to make a variety of data visualization by using ECharts in React? [see here](https://github.com/InnoFang/haetae/tree/dev/src/main/data_analysis)
-+ How to export `Microsoft Word` file on browser? [see here](https://github.com/InnoFang/haetae/blob/dev/src/main/reportGeneration/reportGeneration.js)
++ How to export `Microsoft Word` file on browser in React? [see here](https://github.com/InnoFang/haetae/blob/dev/src/main/reportGeneration/reportGeneration.js)
 
 
 # [License](./LICENSE)
